@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Book, type: :model do
   subject(:book) { build(:book) }
+
   describe 'Presence Validation' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:author) }
@@ -24,8 +25,9 @@ RSpec.describe Book, type: :model do
     end
 
     context 'when receive invalid attributes' do
+      subject(:book) { build(:book, title: nil) }
+
       it 'must not save to database' do
-        book.title = nil
         expect(book.new_record?).to eq(true)
         expect(book.save).to eq(false)
         expect(book.valid?).to eq(false)
